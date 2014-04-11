@@ -1,4 +1,4 @@
 codename-obsession
 ==================
 
-We want to know how bloggers of WordPress behave and how we can help them improve their own behavior. One step at a time.
+We will help bloggers of WordPress analyse their own blogging patterns and behaviors, so they can improve their blogging style. One step at a time.
