@@ -54,6 +54,7 @@ var Obsession = (function ($) {
 			r.listenToClick();
 		}
 	};
+	return u;
 }(jQuery));
 
 (function($) {
