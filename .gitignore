@@ -1,0 +1,9 @@
+*.swp
+*.swo
+*.swn
+config.sh
+.idea
+.DS_Store
+.project
+production/*.zip
+production/obsession_copy
