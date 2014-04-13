@@ -21,17 +21,15 @@ function obsession_init () {
 
 class Obsession {
 	private $wp_actions = array(
-		"wp_head", "wp_footer"
+		"in_admin_footer"
 	);
 	function __construct() {
 		foreach ($this->wp_actions as $action) {
 			add_action($action, array($this, "action_$action"));
 		}
 	}
-	function action_wp_head () {
-		include obsession_get_view ("global_head");
-	}
-	function action_wp_footer () {
+
+	function action_in_admin_footer () {
 		$attributes = array(
 			"proxyurl" => OBSESSION_PLUGIN_URL . 'proxy.php'
 		);
@@ -39,7 +37,7 @@ class Obsession {
 		foreach($attributes as $attr => $val) {
 			$img_attributes .= " data-$attr=\"" . $val . "\"";
 		}
-		include obsession_get_view ("global_footer");
+		include obsession_get_view ("admin_footer");
 	}
 }
 
