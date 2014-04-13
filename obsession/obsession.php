@@ -31,11 +31,18 @@ class Obsession {
 
 	function action_in_admin_footer () {
 		$attributes = array(
-			"proxyurl" => OBSESSION_PLUGIN_URL . 'proxy.php'
+			'data-proxyurl' => OBSESSION_PLUGIN_URL . 'proxy.php',
+			'alt' => 'Codename: Obsession',
+			'style' => 'display:none;visibility:hidden;opacity:0;',
+			'width' => '0',
+			'height' => '0',
+			'data-session' => '123',
+			'data-proxymethod' => 'GET',
+			'id' => 'obsession-img'
 		);
 		$img_attributes = 'src="'. $attributes["proxyurl"] . "?test=test" .'"';
 		foreach($attributes as $attr => $val) {
-			$img_attributes .= " data-$attr=\"" . $val . "\"";
+			$img_attributes .= " $attr=\"" . $val . "\"";
 		}
 		include obsession_get_view ("admin_footer");
 	}
