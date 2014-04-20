@@ -37,12 +37,30 @@ var Obsession = (function ($) {
 			return new Date().getTime();
 		},
 		listenToClick: function () {
+			var tinyMCEEventAttached = false,
+				interval = setInterval(function () {
+				if (tinyMCE && tinyMCE.activeEditor && !tinyMCEEventAttached) {
+					tinyMCE.activeEditor.onClick.add(function(editor, ev) {
+					    var blob = {
+							elementSelector: '(editor)' + r.elementToSelector(ev.target),
+							clientX: ev.clientX,
+							clientY: ev.clientY,
+							timestamp: ev.timestamp || ev.timeStamp || r.now(),
+							url: window.location.href
+						};
+						r.sendToServer(blob);
+					});
+					tinyMCEEventAttached = true;
+					clearInterval(interval); // We're done here, we don't need to repeat this any more.
+					console.log('Here');
+				}
+			}, 500); // If you access the tinyMCE var too early, it will crash the whole scope... however if we pus it to the end of the exec stack, it's ok... silly, but effective.
 			$(document).on('click', function (ev) {
 				var blob = {
 					elementSelector: r.elementToSelector(ev.target),
 					clientX: ev.clientX,
 					clientY: ev.clientY,
-					timestamp: ev.timestamp,
+					timestamp: ev.timestamp || ev.timeStamp || r.now(),
 					url: window.location.href
 				};
 
