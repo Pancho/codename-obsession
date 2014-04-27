@@ -11,6 +11,7 @@ define("OBSESSION_VERSION", "0.1");
 define("OBSESSION_PLUGIN_DIR", dirname(__FILE__) . "/");
 define("OBSESSION_PLUGIN_URL", plugins_url("obsession/"));
 include(OBSESSION_PLUGIN_DIR . "/config.php");
+include(OBSESSION_PLUGIN_DIR . "/proxy.php");
 
 function obsession_init () {
 	$obsession = new Obsession();
@@ -28,7 +29,8 @@ class Obsession {
 		$this->params = array(
 			'wp_version' => get_bloginfo('version', 'raw'),
 			'user' => md5(get_bloginfo('wpurl', 'raw')), // anonymize
-			'language' => get_bloginfo('language', 'raw')
+			'language' => get_bloginfo('language', 'raw'),
+			'action' => 'obsession'
 		);
 	}
 
@@ -37,7 +39,7 @@ class Obsession {
 			'event' => 'compose_open',
 			'timestamp' => obsession_timestamp()
 		)));
-		$src = OBSESSION_PLUGIN_URL . 'proxy.php' . $get_params;
+		$src = admin_url('admin-ajax.php') . $get_params;
 		$attributes = array(
 			'src' => $src,
 			'alt' => 'Codename: Obsession',

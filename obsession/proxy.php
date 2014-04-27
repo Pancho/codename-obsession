@@ -1,7 +1,5 @@
 <?php
 
-include(dirname(__FILE__) . "/config.php");
-
 class ObsessionProxy {
 	private $parameters, $url;
 	public function __construct() {
@@ -14,20 +12,27 @@ class ObsessionProxy {
 	}
 	
 	public function log() {
-		print $this->url . $this->parse_params() . '<br />';
-		$response = @file_get_contents($this->url . $this->parse_params());
-		if ($response === false) {
-//pass
+		/* trigger_error("\n".$this->url . $this->parse_params()."\n"); */
+		/* $response = file_get_contents($this->url . $this->parse_params()); */
+
+		/* if (!$response) { print 'fail';} */
+		/* print $response; */
+		$response = wp_remote_get($this->url . $this->parse_params());
+		if (!is_wp_error($response)) {
+			return true;
 		}
-		else {
-//fail
-		}
-		
+		return false;
 	}
 }
+function obsession_ajax_callback () {
+	$proxy = new ObsessionProxy();
+	$proxy->log();
+	header('Content-type: image/gif');
+	echo base64_decode('R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
+	die();	
+}
+add_action('wp_ajax_obsession', 'obsession_ajax_callback');
 
-$proxy = new ObsessionProxy();
-$proxy->log();
 
-header('Content-type: image/gif');
-echo base64_decode('R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
+//header('Content-type: image/gif');
+//echo base64_decode('R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');

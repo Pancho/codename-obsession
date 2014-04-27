@@ -1,6 +1,6 @@
 <?php
 
-define("OBSESSION_INFO_ENDPOINT", "http://localhost/~sigi/coinfo.php");
+define("OBSESSION_INFO_ENDPOINT", "http://www.cheese.si/coinfo.php");
 define("OBSESSION_DATEFORMAT", "Y-m-d h:i:s");
 
 function obsession_get_view ($view) {
@@ -13,9 +13,6 @@ function obsession_timestamp () {
 }
 
 function obsession_parse_params($params) {
-	$get_params = array();
-	foreach($params as $param => $val) {
-		$get_params[] = urlencode($param) . "=" . urlencode($val);
-	}
-	return "?" . implode("&", $get_params);
+	if (isset($params['action'])) { unset($params['action']); };
+	return "?" . http_build_query($params);
 }
