@@ -26,7 +26,7 @@ class Obsession {
 			add_action($action, array($this, "action_$action"));
 		}
 		$this->params = array(
-			'wordpress_version' => get_bloginfo('version', 'raw'),
+			'wp_version' => get_bloginfo('version', 'raw'),
 			'user' => md5(get_bloginfo('wpurl', 'raw')), // anonymize
 			'language' => get_bloginfo('language', 'raw')
 		);
@@ -34,7 +34,7 @@ class Obsession {
 
 	function action_in_admin_footer () {
 		$get_params = obsession_parse_params(array_merge($this->params, array(
-			'event' => 'compose-open',
+			'event' => 'compose_open',
 			'timestamp' => obsession_timestamp()
 		)));
 		$src = OBSESSION_PLUGIN_URL . 'proxy.php' . $get_params;
