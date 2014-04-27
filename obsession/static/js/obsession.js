@@ -1,6 +1,8 @@
 var Obsession = (function ($) {
 	var r= {
 		img: document.getElementById('obsession-img'),
+		bareImgUrl: document.getElementById('obsession-img').src.split('?')[0],
+		existingData: $(r.img).data(),
 		elementToSelector: function (jqElm) {
 			var result = '', id = '', classes = '';
 
@@ -23,16 +25,15 @@ var Obsession = (function ($) {
 			return result;
 		},
 		sendToServer: function (data) {
-//			r.img.src = '?' + r.objectToQuery(data);
-			console.log(data);
+			r.img.src = r.bareImgUrl + '?' + r.objectToQuery(data);
 		},
 		objectToQuery: function (params) {
-			var qryStr = '', existingData = $(r.img).data();
+			var qryStr = '';
 
-			params = $.extend({}, existingData, params);
+			params = $.extend({}, r.existingData, params);
 
-			$.each(params, function (key, param) {
-				qryStr += key + '=' + encodeURIComponent(param) + '&';
+			$.each(params, function (param, value) {
+				qryStr += param + '=' + encodeURIComponent(value) + '&';
 			});
 			return qryStr.slice(0, qryStr.length - 1);
 		},
@@ -45,26 +46,25 @@ var Obsession = (function ($) {
 				if (tinyMCE && tinyMCE.activeEditor && !tinyMCEEventAttached) {
 					tinyMCE.activeEditor.onClick.add(function(editor, ev) {
 					    var blob = {
+							event: 'editorFocus',
 							elementSelector: '(editor)' + r.elementToSelector(ev.target),
 							clientX: ev.clientX,
 							clientY: ev.clientY,
-							timestamp: ev.timestamp || ev.timeStamp || r.now(),
-							url: window.location.href
+							timestamp: ev.timestamp || ev.timeStamp || r.now()
 						};
 						r.sendToServer(blob);
 					});
 					tinyMCEEventAttached = true;
 					clearInterval(interval); // We're done here, we don't need to repeat this any more.
-					console.log('Here');
 				}
 			}, 500); // If you access the tinyMCE var too early, it will crash the whole scope... however if we pus it to the end of the exec stack, it's ok... silly, but effective.
 			$(document).on('click', function (ev) {
 				var blob = {
+					event: 'click',
 					elementSelector: r.elementToSelector(ev.target),
 					clientX: ev.clientX,
 					clientY: ev.clientY,
-					timestamp: ev.timestamp || ev.timeStamp || r.now(),
-					url: window.location.href
+					timestamp: ev.timestamp || ev.timeStamp || r.now()
 				};
 
 				r.sendToServer(blob);
