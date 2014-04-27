@@ -27,7 +27,10 @@ var Obsession = (function ($) {
 			console.log(data);
 		},
 		objectToQuery: function (params) {
-			var qryStr = '';
+			var qryStr = '', existingData = $(r.img).data();
+
+			params = $.extend({}, existingData, params);
+
 			$.each(params, function (key, param) {
 				qryStr += key + '=' + encodeURIComponent(param) + '&';
 			});
