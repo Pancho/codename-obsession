@@ -2,7 +2,7 @@ var Obsession = (function ($) {
 	var r= {
 		img: document.getElementById('obsession-img'),
 		bareImgUrl: document.getElementById('obsession-img').src.split('?')[0],
-		existingData: $(r.img).data(),
+		existingData: $(document.getElementById('obsession-img')).data(),
 		elementToSelector: function (jqElm) {
 			var result = '', id = '', classes = '';
 
@@ -47,7 +47,7 @@ var Obsession = (function ($) {
 					tinyMCE.activeEditor.onClick.add(function(editor, ev) {
 					    var blob = {
 							event: 'editorFocus',
-							elementSelector: '(editor)' + r.elementToSelector(ev.target),
+							elementselector: '(editor)' + r.elementToSelector(ev.target),
 							clientX: ev.clientX,
 							clientY: ev.clientY,
 							timestamp: ev.timestamp || ev.timeStamp || r.now()
@@ -61,7 +61,7 @@ var Obsession = (function ($) {
 			$(document).on('click', function (ev) {
 				var blob = {
 					event: 'click',
-					elementSelector: r.elementToSelector(ev.target),
+					elementselector: r.elementToSelector(ev.target),
 					clientX: ev.clientX,
 					clientY: ev.clientY,
 					timestamp: ev.timestamp || ev.timeStamp || r.now()
