@@ -10,15 +10,24 @@ class ObsessionProxy {
 	}
 
 	private function parse_params() {
-		return obsession_parse_params($this->params);
+		return obsession_parse_params($this->parameters);
 	}
 	
 	public function log() {
-		$response = file_get_contents($this->url . $this->parse_params());
+		print $this->url . $this->parse_params() . '<br />';
+		$response = @file_get_contents($this->url . $this->parse_params());
+		if ($response === false) {
+//pass
+		}
+		else {
+//fail
+		}
+		
 	}
 }
 
 $proxy = new ObsessionProxy();
 $proxy->log();
+
 header('Content-type: image/gif');
 echo base64_decode('R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
