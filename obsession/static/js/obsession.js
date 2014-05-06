@@ -43,7 +43,7 @@ var Obsession = (function ($) {
 		listenToClick: function () {
 			var tinyMCEEventAttached = false,
 				interval = setInterval(function () {
-				if (tinyMCE && tinyMCE.activeEditor && !tinyMCEEventAttached) {
+				if (typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor && !tinyMCEEventAttached) {
 					tinyMCE.activeEditor.onClick.add(function(editor, ev) {
 					    var blob = {
 							event: 'editorFocus',
